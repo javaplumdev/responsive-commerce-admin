@@ -14,13 +14,12 @@ const NavbarComponent = () => {
 				className="text-dark text-decoration-none d-flex align-items-center"
 			>
 				<BiHomeAlt size="30" className="me-2" />
-				Everbloom
+				Everbloom Admin
 			</Link>
 			<Dropdown>
 				<Dropdown.Toggle variant="outline-dark"></Dropdown.Toggle>
 
 				<Dropdown.Menu>
-					<Dropdown.Item>Profile</Dropdown.Item>
 					<Dropdown.Item onClick={() => handleSignOut()}>Logout</Dropdown.Item>
 				</Dropdown.Menu>
 			</Dropdown>
