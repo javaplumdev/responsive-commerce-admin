@@ -4,10 +4,11 @@ import { Container, Button, Modal } from 'react-bootstrap';
 import useGetItems from './useGetItems';
 import AddItemModal from './AddItemModal';
 import useModalUploadPost from './useModalUploadPost';
+import { AiFillShopping } from 'react-icons/ai';
 
 const Home = () => {
 	const { currentUser } = useGetUsers();
-	const { data, isLoading } = useGetItems();
+	const { data, placedOrders } = useGetItems();
 	const { handleShow, show, handleClose } = useModalUploadPost();
 
 	const filteredData =
@@ -16,6 +17,10 @@ const Home = () => {
 	return (
 		<Container>
 			<div className="mt-3 d-flex justify-content-end">
+				<div className="me-3">
+					<span>Orders ({placedOrders?.length})</span>
+					<AiFillShopping size={30} />
+				</div>
 				<Button variant="dark" onClick={handleShow}>
 					Add item
 				</Button>
@@ -48,9 +53,6 @@ const Home = () => {
 										{item.name}
 										<br></br>
 										<b>₱{item.price}</b>
-
-										<p className="mt-3">ORDERS: 0</p>
-										<p className="mt-3">SHIPPED: 0</p>
 									</div>
 								</div>
 							</div>

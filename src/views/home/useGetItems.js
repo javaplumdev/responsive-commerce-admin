@@ -5,6 +5,7 @@ import { db } from '../../firebase/config';
 function useGetItems() {
 	const [data, setData] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
+	const [placedOrders, setPlacesOrders] = useState(null);
 
 	useEffect(() => {
 		const queryData = query(
@@ -17,9 +18,17 @@ function useGetItems() {
 
 			setIsLoading(false);
 		});
+
+		onSnapshot(query(collection(db, 'placed-order')), (snapshot) => {
+			setPlacesOrders(
+				snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+			);
+
+			setIsLoading(false);
+		});
 	}, []);
 
-	return { data, isLoading };
+	return { data, isLoading, placedOrders };
 }
 
 export default useGetItems;
