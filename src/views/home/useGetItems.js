@@ -44,9 +44,9 @@ function useGetItems() {
 
 	const approvedOrder = async (id) => {
 		await setDoc(
-			doc(db, 'placed-orders', id),
+			doc(db, 'placed-order', id),
 			{
-				pending: 'Approved',
+				status: 'Approved',
 			},
 			{ merge: true }
 		);
@@ -54,9 +54,9 @@ function useGetItems() {
 
 	const toShip = async (id) => {
 		await setDoc(
-			doc(db, 'placed-orders', id),
+			doc(db, 'placed-order', id),
 			{
-				pending: 'To ship',
+				status: 'To ship',
 			},
 			{ merge: true }
 		);

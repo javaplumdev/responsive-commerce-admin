@@ -43,6 +43,8 @@ const Order = () => {
 				</div>
 				{filteredData &&
 					filteredData?.map((item, index) => {
+						console.log(filteredData);
+
 						return (
 							<div
 								key={index}
