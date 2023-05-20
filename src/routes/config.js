@@ -1,8 +1,17 @@
-import { LoginPage, Home, RegisterPage } from '../views';
+import { LoginPage, Home, RegisterPage, Order } from '../views';
 import { NavbarComponent } from '../components';
 import ProtectedRoute from '../components/protectedRoute';
 
 export const route_config = [
+	{
+		path: '/order',
+		component: (
+			<ProtectedRoute>
+				<NavbarComponent />
+				<Order />
+			</ProtectedRoute>
+		),
+	},
 	{
 		path: '/home',
 		component: (

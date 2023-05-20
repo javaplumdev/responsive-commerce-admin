@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react';
-import { onSnapshot, collection, query, orderBy } from '../../firebase';
+import {
+	onSnapshot,
+	collection,
+	query,
+	orderBy,
+	deleteDoc,
+	doc,
+	setDoc,
+} from '../../firebase';
 import { db } from '../../firebase/config';
+import { toast } from 'react-toastify';
 
 function useGetItems() {
 	const [data, setData] = useState('');
@@ -19,7 +28,12 @@ function useGetItems() {
 			setIsLoading(false);
 		});
 
-		onSnapshot(query(collection(db, 'placed-order')), (snapshot) => {
+		const queryDataOrders = query(
+			collection(db, 'placed-order'),
+			orderBy('timestamp', 'desc')
+		);
+
+		onSnapshot(queryDataOrders, (snapshot) => {
 			setPlacesOrders(
 				snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
 			);
@@ -28,7 +42,42 @@ function useGetItems() {
 		});
 	}, []);
 
-	return { data, isLoading, placedOrders };
+	const approvedOrder = async (id) => {
+		await setDoc(
+			doc(db, 'placed-orders', id),
+			{
+				pending: 'Approved',
+			},
+			{ merge: true }
+		);
+	};
+
+	const toShip = async (id) => {
+		await setDoc(
+			doc(db, 'placed-orders', id),
+			{
+				pending: 'To ship',
+			},
+			{ merge: true }
+		);
+	};
+
+	const removeItem = async (id) => {
+		await deleteDoc(doc(db, 'items', id));
+
+		toast.success('Item removed!', {
+			position: 'top-center',
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: true,
+			draggable: true,
+			progress: undefined,
+			theme: 'light',
+		});
+	};
+
+	return { data, isLoading, placedOrders, removeItem, approvedOrder, toShip };
 }
 
 export default useGetItems;

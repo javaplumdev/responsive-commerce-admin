@@ -2,6 +2,7 @@ import React from 'react';
 import { route_config } from './routes/config';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toast } from './components';
+import './styles/stlyes.css';
 
 function App() {
 	return (

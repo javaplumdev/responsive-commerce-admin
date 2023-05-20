@@ -1,14 +1,16 @@
 import React from 'react';
 import useGetUsers from './useGetUsers';
-import { Container, Button, Modal } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import useGetItems from './useGetItems';
 import AddItemModal from './AddItemModal';
 import useModalUploadPost from './useModalUploadPost';
 import { AiFillShopping } from 'react-icons/ai';
+import { BsFillTrashFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 	const { currentUser } = useGetUsers();
-	const { data, placedOrders } = useGetItems();
+	const { data, placedOrders, removeItem } = useGetItems();
 	const { handleShow, show, handleClose } = useModalUploadPost();
 
 	const filteredData =
@@ -19,7 +21,9 @@ const Home = () => {
 			<div className="mt-3 d-flex justify-content-end">
 				<div className="me-3">
 					<span>Orders ({placedOrders?.length})</span>
-					<AiFillShopping size={30} />
+					<Link to="/order" className="text-dark">
+						<AiFillShopping size={30} />
+					</Link>
 				</div>
 				<Button variant="dark" onClick={handleShow}>
 					Add item
@@ -36,7 +40,7 @@ const Home = () => {
 						return (
 							<div
 								key={index}
-								className="text-decoration-none my-3 border p-3 w-100"
+								className="d-flex justify-content-between text-decoration-none my-3 border p-3 w-100"
 							>
 								<div className="d-flex">
 									<img
@@ -55,6 +59,12 @@ const Home = () => {
 										<b>₱{item.price}</b>
 									</div>
 								</div>
+								<BsFillTrashFill
+									className="trash"
+									size={30}
+									color="#960000"
+									onClick={() => removeItem(item.id)}
+								/>
 							</div>
 						);
 					})
